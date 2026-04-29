@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TabDocks</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0d1117;
+      --surface:   #161b22;
+      --border:    #30363d;
+      --accent:    #58a6ff;
+      --accent2:   #3fb950;
+      --text:      #c9d1d9;
+      --muted:     #8b949e;
+      --radius:    8px;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── Hero ─────────────────────────────────────────────────────────── */
+    header {
+      background: linear-gradient(160deg, #1a2233 0%, #0d1117 60%);
+      border-bottom: 1px solid var(--border);
+      padding: 72px 24px 56px;
+      text-align: center;
+    }
+
+    .badge-row {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 28px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .badge-blue   { background: #1c2e4a; color: var(--accent); border: 1px solid #2d4a6e; }
+    .badge-green  { background: #1a2e1a; color: var(--accent2); border: 1px solid #2d4e2d; }
+    .badge-purple { background: #2a1e3a; color: #c9a7ff; border: 1px solid #4a2e6e; }
+    .badge-orange { background: #2e1e0a; color: #e3a850; border: 1px solid #5e3d1a; }
+
+    header h1 {
+      font-size: clamp(2.2rem, 6vw, 3.4rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #e6edf3;
+      margin-bottom: 16px;
+    }
+
+    header h1 span { color: var(--accent); }
+
+    header p.tagline {
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      color: var(--muted);
+      max-width: 640px;
+      margin: 0 auto 32px;
+    }
+
+    /* ── Main layout ──────────────────────────────────────────────────── */
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    section { margin-bottom: 56px; }
+
+    h2 {
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: #e6edf3;
+      margin-bottom: 24px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    h2 .icon {
+      font-size: 1.1em;
+      opacity: 0.85;
+    }
+
+    /* ── Feature grid ─────────────────────────────────────────────────── */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 22px;
+      transition: border-color 0.2s;
+    }
+
+    .card:hover { border-color: var(--accent); }
+
+    .card-icon {
+      font-size: 1.6rem;
+      margin-bottom: 10px;
+    }
+
+    .card h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #e6edf3;
+      margin-bottom: 6px;
+    }
+
+    .card p {
+      font-size: 0.875rem;
+      color: var(--muted);
+    }
+
+    /* ── Tech stack table ─────────────────────────────────────────────── */
+    .tech-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    .tech-table th,
+    .tech-table td {
+      text-align: left;
+      padding: 10px 16px;
+      border: 1px solid var(--border);
+    }
+
+    .tech-table th {
+      background: #1c2230;
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .tech-table tr:nth-child(even) td { background: #12181f; }
+
+    .tech-table td:first-child {
+      color: #e6edf3;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    /* ── Architecture diagram ─────────────────────────────────────────── */
+    .arch-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+    }
+
+    .arch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    .arch-item {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 14px 16px;
+    }
+
+    .arch-item .layer-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .arch-item .layer-name {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #e6edf3;
+      margin-bottom: 4px;
+    }
+
+    .arch-item .layer-desc {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .arch-item.accent-blue  { border-color: #2d4a6e; background: #0d1a2a; }
+    .arch-item.accent-green { border-color: #2d4e2d; background: #0d1a0d; }
+    .arch-item.accent-purple{ border-color: #4a2e6e; background: #1a0d2a; }
+    .arch-item.accent-orange{ border-color: #5e3d1a; background: #1a0d00; }
+    .arch-item.accent-gray  { border-color: var(--border); background: #12181f; }
+
+    /* ── Dependency list ──────────────────────────────────────────────── */
+    .dep-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .dep-pill {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 6px 14px;
+      font-size: 0.85rem;
+      color: var(--text);
+    }
+
+    .dep-pill code {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 0.82rem;
+      color: var(--accent);
+    }
+
+    /* ── Footer ───────────────────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 28px 24px;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    @media (max-width: 600px) {
+      header { padding: 48px 16px 36px; }
+      main   { padding: 32px 16px 56px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Hero ──────────────────────────────────────────────────────────── -->
+<header>
+  <div class="badge-row">
+    <span class="badge badge-blue">Windows Desktop</span>
+    <span class="badge badge-green">.NET 8 · WPF</span>
+    <span class="badge badge-purple">C#</span>
+    <span class="badge badge-orange">Open Source</span>
+  </div>
+  <h1>Tab<span>Docks</span></h1>
+  <p class="tagline">
+    A customizable tabbed docking bar for Windows — quick-launch apps, manage windows,
+    and control your desktop from anywhere.
+  </p>
+</header>
+
+<!-- ── Main ──────────────────────────────────────────────────────────── -->
+<main>
+
+  <!-- Features -->
+  <section id="features">
+    <h2><span class="icon">⚡</span> Features</h2>
+    <div class="grid">
+      <div class="card">
+        <div class="card-icon">🗂️</div>
+        <h3>Tabbed Dock Bar</h3>
+        <p>Attach a multi-tab dock to any screen edge. Each tab groups related shortcuts and apps with its own color scheme.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🚀</div>
+        <h3>Application Launcher</h3>
+        <p>Launch any executable with custom arguments and optional elevated (admin) privileges directly from the dock.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🎨</div>
+        <h3>Visual Customization</h3>
+        <p>Per-tab colors, blur effects, transparency, multiple themes, and adjustable dock thickness.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🌐</div>
+        <h3>Remote Control</h3>
+        <p>HTTP/PHP-based interface for operating and configuring the dock from a remote device or Android app.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📡</div>
+        <h3>FTP Sync</h3>
+        <p>Bi-directional folder synchronisation between local and remote FTP servers with scheduled intervals.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🎮</div>
+        <h3>Gamepad Support</h3>
+        <p>Full PS3 and PS4 DualShock controller integration for navigating and triggering dock actions.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📺</div>
+        <h3>Screen Streaming</h3>
+        <p>Capture and stream the desktop display to a remote viewer over the network.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">⌨️</div>
+        <h3>Keyboard &amp; Mouse Hooks</h3>
+        <p>Raw input capture, custom hotkeys, and Copilot key remapping through low-level Windows hooks.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔒</div>
+        <h3>Secure Credentials</h3>
+        <p>Remote-control credentials are encrypted before being stored in the INI configuration file.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tech Stack -->
+  <section id="tech">
+    <h2><span class="icon">🛠️</span> Technology Stack</h2>
+    <table class="tech-table">
+      <thead>
+        <tr>
+          <th>Component</th>
+          <th>Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Runtime</td><td>.NET 8.0 (net8.0-windows)</td></tr>
+        <tr><td>Primary UI</td><td>WPF (Windows Presentation Foundation)</td></tr>
+        <tr><td>System Integration</td><td>Windows Forms (system tray, low-level hooks)</td></tr>
+        <tr><td>Language</td><td>C# 12</td></tr>
+        <tr><td>JSON</td><td>Newtonsoft.Json 13.0.3</td></tr>
+        <tr><td>Extended WPF Controls</td><td>Extended.Wpf.Toolkit 4.6.1</td></tr>
+        <tr><td>HID / Gamepad</td><td>HidSharp 2.1.0</td></tr>
+        <tr><td>Logging</td><td>Serilog 4.0.1</td></tr>
+        <tr><td>Async collections</td><td>System.Linq.Async · System.Collections.Immutable</td></tr>
+        <tr><td>Android Remote App</td><td>Gradle / Java</td></tr>
+        <tr><td>PHP Backend</td><td>Plain PHP (remote control endpoints)</td></tr>
+        <tr><td>Build</td><td>MSBuild via <code>build.bat</code></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Architecture -->
+  <section id="architecture">
+    <h2><span class="icon">🏗️</span> Architecture</h2>
+    <div class="arch-block">
+      <div class="arch-grid">
+        <div class="arch-item accent-blue">
+          <div class="layer-label">Executable</div>
+          <div class="layer-name">TabDocks.exe</div>
+          <div class="layer-desc">WPF dock UI, AppBar docking, data models, WinForms event host</div>
+        </div>
+        <div class="arch-item accent-green">
+          <div class="layer-label">Optional DLL</div>
+          <div class="layer-name">RemoteControlDll</div>
+          <div class="layer-desc">HTTP handlers, FTP manager, screen streamer</div>
+        </div>
+        <div class="arch-item accent-purple">
+          <div class="layer-label">Optional DLL</div>
+          <div class="layer-name">ControllerDll</div>
+          <div class="layer-desc">PS3 / PS4 DualShock input bridge</div>
+        </div>
+        <div class="arch-item accent-orange">
+          <div class="layer-label">Mobile App</div>
+          <div class="layer-name">Android Remote</div>
+          <div class="layer-desc">Gradle app consuming the PHP/HTTP API</div>
+        </div>
+        <div class="arch-item accent-gray">
+          <div class="layer-label">Web Backend</div>
+          <div class="layer-name">PHP Endpoints</div>
+          <div class="layer-desc">get.php · put.php · get_screen.php · put_screen.php</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dependencies -->
+  <section id="dependencies">
+    <h2><span class="icon">📦</span> Key Dependencies</h2>
+    <div class="dep-list">
+      <span class="dep-pill"><code>Newtonsoft.Json</code> 13.0.3</span>
+      <span class="dep-pill"><code>Extended.Wpf.Toolkit</code> 4.6.1</span>
+      <span class="dep-pill"><code>HidSharp</code> 2.1.0</span>
+      <span class="dep-pill"><code>Serilog</code> 4.0.1</span>
+      <span class="dep-pill"><code>System.Linq.Async</code></span>
+      <span class="dep-pill"><code>System.Collections.Immutable</code></span>
+      <span class="dep-pill"><code>System.Data.SqlClient</code></span>
+      <span class="dep-pill"><code>SimpleLogger</code> (local DLL)</span>
+      <span class="dep-pill"><code>SimWinInput</code> (local DLL)</span>
+      <span class="dep-pill"><code>SimWinMouse</code> (local DLL)</span>
+      <span class="dep-pill"><code>IconExtractor</code> (local DLL)</span>
+    </div>
+  </section>
+
+  <!-- Build -->
+  <section id="build">
+    <h2><span class="icon">⚙️</span> Build</h2>
+    <div class="arch-block">
+      <p style="margin-bottom:16px; color:var(--muted); font-size:0.9rem;">
+        Requires <strong style="color:var(--text)">Windows</strong> and the
+        <strong style="color:var(--text)">.NET 8 SDK</strong>.
+      </p>
+      <div style="display:flex; gap:12px; flex-wrap:wrap;">
+        <div style="flex:1; min-width:220px; background:#0d1a2a; border:1px solid #2d4a6e; border-radius:6px; padding:16px;">
+          <div style="font-size:0.75rem; text-transform:uppercase; letter-spacing:.06em; color:var(--accent); margin-bottom:6px;">Debug</div>
+          <code style="font-family:monospace; color:#e6edf3;">build.bat</code>
+        </div>
+        <div style="flex:1; min-width:220px; background:#1a0d00; border:1px solid #5e3d1a; border-radius:6px; padding:16px;">
+          <div style="font-size:0.75rem; text-transform:uppercase; letter-spacing:.06em; color:#e3a850; margin-bottom:6px;">Release</div>
+          <code style="font-family:monospace; color:#e6edf3;">build.bat --release</code>
+        </div>
+      </div>
+      <p style="margin-top:16px; font-size:0.85rem; color:var(--muted);">
+        Output: <code style="color:var(--accent)">TabDocks\bin\[Configuration]\net8.0-windows\TabDocks.exe</code>
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  TabDocks &mdash; Windows desktop application &mdash; .NET 8 · WPF · C#
+</footer>
+
+</body>
+</html>
