@@ -397,6 +397,47 @@
     </div>
   </section>
 
+  <!-- Download -->
+  <section id="download">
+    <h2><span class="icon">⬇️</span> Download</h2>
+    <div class="arch-block" style="text-align:center; padding:36px 32px;">
+      <p style="font-size:1rem; color:var(--muted); margin-bottom:8px;">
+        Windows 10 / 11 &nbsp;·&nbsp; .NET 8 required
+      </p>
+      <p id="release-meta" style="font-size:0.82rem; color:var(--muted); margin-bottom:28px;">
+        Loading release info…
+      </p>
+      <a id="btn-download" href="downloads/TabDocks-latest.zip"
+         style="display:inline-block; background:var(--accent); color:#0d1117; font-weight:700;
+                font-size:1rem; padding:14px 36px; border-radius:var(--radius);
+                text-decoration:none; transition:opacity .15s;">
+        Download TabDocks
+      </a>
+      <p style="margin-top:20px; font-size:0.8rem; color:var(--muted);">
+        Extract the ZIP and run <code style="color:var(--accent)">TabDocks.exe</code> — no installer needed.
+      </p>
+    </div>
+    <script>
+      fetch('downloads/releases.json')
+        .then(r => r.ok ? r.json() : Promise.reject())
+        .then(list => {
+          if (!Array.isArray(list) || list.length === 0) return;
+          const latest = list[0];
+          const meta = document.getElementById('release-meta');
+          const btn  = document.getElementById('btn-download');
+          const date = latest.createdUtc ? new Date(latest.createdUtc).toLocaleDateString() : '';
+          const mb   = latest.sizeBytes  ? (latest.sizeBytes / 1048576).toFixed(1) + ' MB'  : '';
+          meta.textContent = [latest.version, date, mb].filter(Boolean).join(' · ');
+          if (latest.fileName) {
+            btn.href = 'downloads/' + latest.fileName;
+          }
+        })
+        .catch(() => {
+          document.getElementById('release-meta').textContent = '';
+        });
+    </script>
+  </section>
+
   <!-- Build -->
   <section id="build">
     <h2><span class="icon">⚙️</span> Build</h2>
