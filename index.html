@@ -86,6 +86,22 @@
       border-radius: 6px;
     }
 
+    .summary-grid {
+      margin-top: 16px;
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .summary-box {
+      background: rgba(8, 20, 33, 0.52);
+      border: 1px solid #2f5573;
+      border-radius: 10px;
+      padding: 12px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
     .tabs {
       display: grid;
       gap: 12px;
@@ -156,31 +172,17 @@
 
     .card p { margin: 0; color: var(--muted); font-size: .93rem; }
 
-    .script-block {
-      border-top: 1px solid #2a4c67;
+    .download-zone {
       margin-top: 12px;
+      border-top: 1px solid #2a4c67;
       padding-top: 14px;
-    }
-
-    .script-block h3 { margin: 0 0 8px; }
-
-    pre {
-      margin: 0;
-      border: 1px solid #2f5977;
-      border-radius: 8px;
-      background: #0b1c2e;
-      padding: 10px 12px;
-      color: #a8ddff;
-      white-space: pre-wrap;
-      word-break: break-word;
-      font: 12.5px/1.45 var(--mono);
     }
 
     .actions {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      margin-top: 10px;
+      margin-top: 8px;
     }
 
     .btn {
@@ -198,14 +200,36 @@
       cursor: pointer;
     }
 
-    .btn.copy { background: #183f33; border-color: #2e7860; color: #caf7e8; }
-    .btn.local { background: #3f2a10; border-color: #896034; color: #ffe8bf; }
+    .btn.primary {
+      background: #145175;
+      border-color: #3f89b6;
+      color: #eaf8ff;
+    }
+
+    .btn.secondary {
+      background: #1f3a2a;
+      border-color: #45735b;
+      color: #d8faec;
+    }
+
+    .btn.disabled {
+      opacity: .55;
+      pointer-events: none;
+    }
 
     .meta {
       margin-top: 8px;
       color: #84a2bb;
       font-size: 12px;
     }
+
+    ul.feature-list {
+      margin: 10px 0 0 18px;
+      color: var(--muted);
+      padding: 0;
+    }
+
+    ul.feature-list li { margin-bottom: 6px; }
 
     footer {
       margin-top: 20px;
@@ -229,13 +253,19 @@
       </div>
       <h1>Project Control Deck</h1>
       <p class="subtitle">
-        Technical summary and publish operations for TabDocks, ControllerDll, RemoteControl stack, and Lefty.
-        Each tab includes implementation notes and script commands.
+        Product-style overview for TabDocks, ControllerDll, RemoteControl stack, and Lefty.
+        Each tab explains what it does, key features, and provides latest downloads.
       </p>
       <p class="note">
-        Browser security blocks direct execution of local scripts on GitHub Pages.
-        The launch buttons below open local script files and provide copy-ready commands for PowerShell.
+        This page is focused on releases and features only.
+        No publish commands are shown.
       </p>
+      <div class="summary-grid">
+        <div class="summary-box"><strong style="color:#d8efff;">Desktop Core:</strong> TabDocks dock bar with tabbed launcher and calendar week numbers.</div>
+        <div class="summary-box"><strong style="color:#d8efff;">Input Plugin:</strong> ControllerDll for joypad and BLE controller integration.</div>
+        <div class="summary-box"><strong style="color:#d8efff;">Remote Stack:</strong> Passive HTTP endpoints plus Android remote client and RemoteControlDll.</div>
+        <div class="summary-box"><strong style="color:#d8efff;">Android App:</strong> Lefty media player with library, playlists, effects, and online search modules.</div>
+      </div>
     </section>
 
     <nav class="tabs" aria-label="Project tabs">
@@ -267,15 +297,19 @@
         </article>
       </div>
 
-      <div class="script-block">
-        <h3>Publish Script</h3>
-        <pre>powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\publish\publish-tabdocks.ps1 -Configuration Release</pre>
+      <ul class="feature-list">
+        <li>Tabbed dock launcher with per-tab visual configuration and app execution parameters.</li>
+        <li>Calendar popup includes week numbering and Monday-based week layout.</li>
+        <li>System tray integration, fullscreen awareness, and configurable desktop behavior.</li>
+      </ul>
+
+      <div class="download-zone">
+        <h3 style="margin:0 0 6px;">Latest Download</h3>
         <div class="actions">
-          <button class="btn copy" data-copy="powershell -NoProfile -ExecutionPolicy Bypass -File .\\tools\\publish\\publish-tabdocks.ps1 -Configuration Release">Copy command</button>
-          <a class="btn" href="tools/publish/publish-tabdocks.ps1">Open script</a>
-          <a class="btn local" href="tools/publish/publish-tabdocks.cmd">Launch local cmd</a>
+          <a id="btn-tabdocks" class="btn primary" href="downloads/TabDocks-latest.zip">Download TabDocks Latest</a>
+          <a id="btn-tabdocks-release" class="btn secondary" href="downloads/releases.json">View release history</a>
         </div>
-        <p class="meta">Uses C:\Home\DEV\TabDocks\publish_release_to_portal.ps1 and writes into downloads/.</p>
+        <p id="meta-tabdocks" class="meta">Loading latest metadata...</p>
       </div>
     </section>
 
@@ -293,17 +327,22 @@
         </article>
         <article class="card">
           <h3>Build Output</h3>
-          <p>Publishes zipped module artifacts and a stable latest package for quick integration testing.</p>
+          <p>Shipped as a plugin DLL package and loaded into the runtime plugin folder of the dock application.</p>
         </article>
       </div>
 
-      <div class="script-block">
-        <h3>Publish Script</h3>
-        <pre>powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\publish\publish-controllerdll.ps1 -Configuration Release</pre>
+      <ul class="feature-list">
+        <li>Controller input abstraction for dock interaction.</li>
+        <li>BLE-ready usage pattern for connected gamepads on Windows host.</li>
+        <li>Designed as optional plugin so the core app can run without it.</li>
+      </ul>
+
+      <div class="download-zone">
+        <h3 style="margin:0 0 6px;">Latest Download</h3>
         <div class="actions">
-          <button class="btn copy" data-copy="powershell -NoProfile -ExecutionPolicy Bypass -File .\\tools\\publish\\publish-controllerdll.ps1 -Configuration Release">Copy command</button>
-          <a class="btn" href="tools/publish/publish-controllerdll.ps1">Open script</a>
+          <a id="btn-controller" class="btn primary" href="downloads/ControllerDll-latest.zip">Download ControllerDll Latest</a>
         </div>
+        <p id="meta-controller" class="meta">Latest plugin package.</p>
       </div>
     </section>
 
@@ -329,13 +368,18 @@
         </article>
       </div>
 
-      <div class="script-block">
-        <h3>Publish RemoteControlDll</h3>
-        <pre>powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\publish\publish-remotecontroldll.ps1 -Configuration Release</pre>
+      <ul class="feature-list">
+        <li>Passive page model for remote command exchange over HTTP.</li>
+        <li>FTP sync and screen data transport capabilities in the remote module.</li>
+        <li>Android companion app usable as a mobile remote interface.</li>
+      </ul>
+
+      <div class="download-zone">
+        <h3 style="margin:0 0 6px;">Latest Download</h3>
         <div class="actions">
-          <button class="btn copy" data-copy="powershell -NoProfile -ExecutionPolicy Bypass -File .\\tools\\publish\\publish-remotecontroldll.ps1 -Configuration Release">Copy command</button>
-          <a class="btn" href="tools/publish/publish-remotecontroldll.ps1">Open script</a>
+          <a id="btn-remote" class="btn primary" href="downloads/RemoteControlDll-latest.zip">Download RemoteControlDll Latest</a>
         </div>
+        <p id="meta-remote" class="meta">Latest remote stack module package.</p>
       </div>
     </section>
 
@@ -361,38 +405,29 @@
         </article>
       </div>
 
-      <div class="script-block">
-        <h3>Publish Script</h3>
-        <pre>powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\publish\publish-lefty.ps1 -Configuration Release</pre>
-        <div class="actions">
-          <button class="btn copy" data-copy="powershell -NoProfile -ExecutionPolicy Bypass -File .\\tools\\publish\\publish-lefty.ps1 -Configuration Release">Copy command</button>
-          <a class="btn" href="tools/publish/publish-lefty.ps1">Open script</a>
-          <a class="btn local" href="tools/publish/publish-lefty.cmd">Launch local cmd</a>
-        </div>
-      </div>
-    </section>
+      <ul class="feature-list">
+        <li>Media library scanning and playlist management on-device.</li>
+        <li>Sound effects module with equalizer and tuning options.</li>
+        <li>Tag editing, search tools, and online content lookup features.</li>
+      </ul>
 
-    <section class="panel" id="all" style="display:block; margin-top:14px;">
-      <h2>Publish Everything</h2>
-      <p>Run one command to publish TabDocks, ControllerDll, RemoteControlDll, and Lefty artifacts.</p>
-      <div class="script-block" style="margin-top:0; padding-top:0; border-top:none;">
-        <pre>powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\publish\publish-all.ps1 -Configuration Release</pre>
+      <div class="download-zone">
+        <h3 style="margin:0 0 6px;">Latest Download</h3>
         <div class="actions">
-          <button class="btn copy" data-copy="powershell -NoProfile -ExecutionPolicy Bypass -File .\\tools\\publish\\publish-all.ps1 -Configuration Release">Copy command</button>
-          <a class="btn" href="tools/publish/publish-all.ps1">Open script</a>
-          <a class="btn local" href="tools/publish/publish-all.cmd">Launch local cmd</a>
+          <a id="btn-lefty" class="btn primary disabled" href="#">Lefty latest APK not available yet</a>
         </div>
+        <p id="meta-lefty" class="meta">Publish Lefty release to generate Lefty-latest.apk in downloads/.</p>
       </div>
     </section>
 
     <footer>
-      Project summaries only. No personal information included.
+      Project summaries, features, and latest downloads only. No personal information included.
     </footer>
   </main>
 
   <script>
     const tabButtons = Array.from(document.querySelectorAll('.tab-btn'));
-    const panels = Array.from(document.querySelectorAll('.panel')).filter(p => p.id !== 'all');
+    const panels = Array.from(document.querySelectorAll('.panel'));
 
     tabButtons.forEach(btn => {
       btn.addEventListener('click', () => {
@@ -403,19 +438,76 @@
       });
     });
 
-    document.querySelectorAll('[data-copy]').forEach(btn => {
-      btn.addEventListener('click', async () => {
-        const value = btn.getAttribute('data-copy') || '';
-        try {
-          await navigator.clipboard.writeText(value);
-          const old = btn.textContent;
-          btn.textContent = 'Copied';
-          setTimeout(() => { btn.textContent = old; }, 1200);
-        } catch (_) {
-          window.prompt('Copy this command:', value);
+    function setMeta(id, text) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = text;
+    }
+
+    function formatMeta(item) {
+      if (!item) return '';
+      const date = item.createdUtc ? new Date(item.createdUtc).toLocaleDateString() : '';
+      const size = item.sizeBytes ? ((item.sizeBytes / 1048576).toFixed(1) + ' MB') : '';
+      return [item.version, date, size].filter(Boolean).join(' · ');
+    }
+
+    fetch('downloads/releases.json')
+      .then(r => r.ok ? r.json() : Promise.reject())
+      .then(list => {
+        if (!Array.isArray(list) || list.length === 0) {
+          setMeta('meta-tabdocks', 'No release metadata found.');
+          return;
         }
+        const latest = list[0];
+        const btn = document.getElementById('btn-tabdocks');
+        if (btn && latest.fileName) {
+          btn.href = 'downloads/' + latest.fileName;
+        }
+        setMeta('meta-tabdocks', 'Latest: ' + formatMeta(latest));
+      })
+      .catch(() => setMeta('meta-tabdocks', 'Unable to load release metadata.'));
+
+    fetch('downloads/lefty-releases.json')
+      .then(r => r.ok ? r.json() : Promise.reject())
+      .then(list => {
+        if (!Array.isArray(list) || list.length === 0) return;
+        const latest = list[0];
+        const btn = document.getElementById('btn-lefty');
+        if (btn && latest.fileName) {
+          btn.href = 'downloads/' + latest.fileName;
+          btn.classList.remove('disabled');
+          btn.textContent = 'Download Lefty Latest APK';
+          setMeta('meta-lefty', 'Latest: ' + formatMeta(latest));
+        }
+      })
+      .catch(() => {});
+
+    fetch('downloads/ControllerDll-latest.zip', { method: 'HEAD' })
+      .then(r => {
+        if (!r.ok) throw new Error('missing');
+        setMeta('meta-controller', 'Latest controller plugin package is available.');
+      })
+      .catch(() => {
+        const btn = document.getElementById('btn-controller');
+        if (btn) {
+          btn.classList.add('disabled');
+          btn.textContent = 'ControllerDll latest package not available';
+        }
+        setMeta('meta-controller', 'Controller plugin package not found in downloads/.');
       });
-    });
+
+    fetch('downloads/RemoteControlDll-latest.zip', { method: 'HEAD' })
+      .then(r => {
+        if (!r.ok) throw new Error('missing');
+        setMeta('meta-remote', 'Latest remote module package is available.');
+      })
+      .catch(() => {
+        const btn = document.getElementById('btn-remote');
+        if (btn) {
+          btn.classList.add('disabled');
+          btn.textContent = 'RemoteControlDll latest package not available';
+        }
+        setMeta('meta-remote', 'Remote module package not found in downloads/.');
+      });
   </script>
 </body>
 </html>
