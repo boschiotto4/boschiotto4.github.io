@@ -248,38 +248,27 @@
     <section class="hero">
       <div class="chips">
         <span class="chip">Windows + Android</span>
-        <span class="chip">Tabbed Project Pages</span>
-        <span class="chip">Publish Scripts Included</span>
+        <span class="chip">Docking + Remote Control</span>
+        <span class="chip">Media + Input Tools</span>
       </div>
       <h1>Project Control Deck</h1>
       <p class="subtitle">
-        Product-style overview for TabDocks, ControllerDll, RemoteControl stack, and Lefty.
-        Each tab explains what it does, key features, and provides latest downloads.
+          A set of application briefs for the TabDocks ecosystem and the Lefty Android player,
+          with direct download links to the latest released builds.
       </p>
-      <p class="note">
-        This page is focused on releases and features only.
-        No publish commands are shown.
-      </p>
-      <div class="summary-grid">
-        <div class="summary-box"><strong style="color:#d8efff;">Desktop Core:</strong> TabDocks dock bar with tabbed launcher and calendar week numbers.</div>
-        <div class="summary-box"><strong style="color:#d8efff;">Input Plugin:</strong> ControllerDll for joypad and BLE controller integration.</div>
-        <div class="summary-box"><strong style="color:#d8efff;">Remote Stack:</strong> Passive HTTP endpoints plus Android remote client and RemoteControlDll.</div>
-        <div class="summary-box"><strong style="color:#d8efff;">Android App:</strong> Lefty media player with library, playlists, effects, and online search modules.</div>
-      </div>
     </section>
 
     <nav class="tabs" aria-label="Project tabs">
       <button class="tab-btn active" data-tab="tabdocks">TabDocks Core<small>Dock bar C# project</small></button>
       <button class="tab-btn" data-tab="controller">ControllerDll<small>Joypad BLE mouse bridge</small></button>
-      <button class="tab-btn" data-tab="remote">RemoteControl Stack<small>Passive HTTP page + dll + Android</small></button>
+      <button class="tab-btn" data-tab="remote">RemoteControl Stack<small>Passive HTTP endpoints + dll + Android</small></button>
       <button class="tab-btn" data-tab="lefty">Lefty Android<small>Media player application</small></button>
     </nav>
 
     <section class="panel active" id="tabdocks">
       <h2>TabDocks (C# Dock Bar)</h2>
       <p>
-        A Windows dock bar built with .NET 8, WPF, and WinForms integration. It supports tabbed launchers,
-        FTP sync, remote operations, and a built-in calendar popup.
+        A Windows dock bar for organizing applications, tools, and system actions into tabs that can be attached to a screen edge.
       </p>
 
       <div class="grid">
@@ -298,9 +287,12 @@
       </div>
 
       <ul class="feature-list">
-        <li>Tabbed dock launcher with per-tab visual configuration and app execution parameters.</li>
-        <li>Calendar popup includes week numbering and Monday-based week layout.</li>
-        <li>System tray integration, fullscreen awareness, and configurable desktop behavior.</li>
+          <li>Tabbed launcher groups shortcuts, folders, scripts, and app entries into separate docks.</li>
+          <li>Per-tab styling includes colors, blur/transparency, title colors, and adjustable thickness.</li>
+          <li>Calendar window shows a month grid with week numbers, weekend styling, and themed palettes.</li>
+          <li>Remote-control support exposes HTTP/PHP-driven actions and configuration workflows.</li>
+          <li>FTP synchronization keeps folders aligned across local and remote locations.</li>
+          <li>System tray integration and fullscreen-aware behavior keep the dock accessible but unobtrusive.</li>
       </ul>
 
       <div class="download-zone">
@@ -316,8 +308,7 @@
     <section class="panel" id="controller">
       <h2>ControllerDll (Joypad BLE Mouse Control)</h2>
       <p>
-        Controller plugin module that adds DualShock/joypad input capabilities to the dock runtime.
-        Designed for BLE-connected controller interactions and runtime integration as ControllerPlugin.dll.
+        A controller-input plugin that turns supported joypads into a mouse-and-action surface for the TabDocks runtime.
       </p>
 
       <div class="grid">
@@ -332,9 +323,10 @@
       </div>
 
       <ul class="feature-list">
-        <li>Controller input abstraction for dock interaction.</li>
-        <li>BLE-ready usage pattern for connected gamepads on Windows host.</li>
-        <li>Designed as optional plugin so the core app can run without it.</li>
+          <li>Reads controller input through HID-style mappings suitable for gamepads and Bluetooth-connected pads.</li>
+          <li>Translates buttons and stick movements into pointer movement and desktop actions.</li>
+          <li>Works as an optional plugin so the dock can run without the controller layer loaded.</li>
+          <li>Useful for couch control, living-room use, and hands-off desktop navigation.</li>
       </ul>
 
       <div class="download-zone">
@@ -347,10 +339,9 @@
     </section>
 
     <section class="panel" id="remote">
-      <h2>RemoteControl Stack (Passive HTTP Page)</h2>
+      <h2>RemoteControl Stack (Passive HTTP Endpoints)</h2>
       <p>
-        Remote operation stack composed of a passive PHP HTTP page, Android remote interface, and RemoteControl.dll.
-        Supports request/response control endpoints, FTP sync workflow, and optional screen-stream transport.
+        A remote-control system built around passive HTTP polling, a PHP endpoint layer, the Android remote client, and the RemoteControl.dll module.
       </p>
 
       <div class="grid">
@@ -369,9 +360,10 @@
       </div>
 
       <ul class="feature-list">
-        <li>Passive page model for remote command exchange over HTTP.</li>
-        <li>FTP sync and screen data transport capabilities in the remote module.</li>
-        <li>Android companion app usable as a mobile remote interface.</li>
+          <li>Passive request/response flow for devices that poll for state, commands, or screen data.</li>
+          <li>PHP endpoints handle get, put, and screen-transfer operations without requiring an always-on websocket server.</li>
+          <li>RemoteControl.dll handles parsing, encryption, FTP synchronization, and desktop control helpers.</li>
+          <li>The Android remote app provides a portable interface for triggering actions and managing the dock remotely.</li>
       </ul>
 
       <div class="download-zone">
@@ -421,7 +413,7 @@
     </section>
 
     <footer>
-      Project summaries, features, and latest downloads only. No personal information included.
+      No personal information included.
     </footer>
   </main>
 
