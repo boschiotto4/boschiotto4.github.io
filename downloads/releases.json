@@ -1,7 +1,23 @@
-﻿{
-    "fileName":  "TabDocks-20260429-204709.zip",
-    "version":  "20260429-204709",
-    "createdUtc":  "2026-04-29T20:47:22.3647415Z",
-    "sizeBytes":  3076172,
-    "sha256":  "921069e9e66a1b4f8b24b98acbd52d0bfb3b87541d1188bdbf000af76abd9966"
-}
+﻿[
+    {
+        "fileName":  "TabDocks-20260508-172947.zip",
+        "version":  "20260508-172947",
+        "createdUtc":  "2026-05-08T17:30:13.2827087Z",
+        "sizeBytes":  3088844,
+        "sha256":  "808a4271d19e00f400ef398b87681d00f91bf318cfd55ba5e16fc8a03f8be39d"
+    },
+    {
+        "fileName":  "TabDocks-20260508-171551.zip",
+        "version":  "20260508-171551",
+        "createdUtc":  "2026-05-08T17:16:16.4663529Z",
+        "sizeBytes":  3088844,
+        "sha256":  "614040614c381dc9282924c88919afbf37818cfb58ca27705dfc348f93535550"
+    },
+    {
+        "fileName":  "TabDocks-20260429-204709.zip",
+        "version":  "20260429-204709",
+        "createdUtc":  "2026-04-29T20:47:22.3647415Z",
+        "sizeBytes":  3076172,
+        "sha256":  "921069e9e66a1b4f8b24b98acbd52d0bfb3b87541d1188bdbf000af76abd9966"
+    }
+]
