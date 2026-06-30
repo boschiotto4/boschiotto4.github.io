@@ -250,10 +250,11 @@
         <span class="chip">Windows + Android</span>
         <span class="chip">Docking + Remote Control</span>
         <span class="chip">Media + Input Tools</span>
+        <span class="chip">ESP32 + IoT</span>
       </div>
       <h1>Project Control Deck</h1>
       <p class="subtitle">
-          A set of application briefs for the TabDocks ecosystem and the Lefty Android player,
+          A set of application briefs for the TabDocks ecosystem, Lefty Android player, and ESP32 IoT projects,
           with direct download links to the latest released builds.
       </p>
     </section>
@@ -263,6 +264,7 @@
       <button class="tab-btn" data-tab="controller">ControllerDll<small>Joypad BLE mouse bridge</small></button>
       <button class="tab-btn" data-tab="remote">RemoteControl Stack<small>Passive HTTP endpoints + dll + Android</small></button>
       <button class="tab-btn" data-tab="lefty">Lefty Android<small>Media player application</small></button>
+      <button class="tab-btn" data-tab="esp32">ESP32 Daikin<small>AC controller firmware + Android app</small></button>
     </nav>
 
     <section class="panel active" id="tabdocks">
@@ -412,6 +414,48 @@
       </div>
     </section>
 
+    <section class="panel" id="esp32">
+      <h2>ESP32 Daikin AC Controller</h2>
+      <p>
+        ESP32 firmware and Android app for controlling Daikin air conditioners via Tasmota IR adapter.
+        Features Wi-Fi control AP, temperature-based routine scheduler, and REST API endpoints.
+      </p>
+
+      <div class="grid">
+        <article class="card">
+          <h3>ESP32 Firmware</h3>
+          <p>ESP-IDF based firmware with HTTP server, NVS storage, SNTP time sync, and routine scheduler with duration tracking.</p>
+        </article>
+        <article class="card">
+          <h3>Android Controller</h3>
+          <p>Kotlin/Compose app with Config, Control, and Routine tabs for managing ESP32 and scheduling AC operations.</p>
+        </article>
+        <article class="card">
+          <h3>IR Communication</h3>
+          <p>Connects to Tasmota IR Wi-Fi adapter to send IRHVAC commands for Daikin AC control via HTTP bridge.</p>
+        </article>
+      </div>
+
+      <ul class="feature-list">
+          <li>ESP32 creates control AP (ESP32-DAIKIN) for direct Android connection without internet.</li>
+          <li>REST API for immediate commands, routine configuration, and status monitoring.</li>
+          <li>Temperature-based routine scheduler with 8 configurable routines and duration settings (5-1440 minutes).</li>
+          <li>Auto-transition between routines when duration expires, supporting temperature thresholds.</li>
+          <li>NVS persistence for Wi-Fi config and routine state across reboots.</li>
+          <li>ESP32 internal temperature sensor exposed for ambient monitoring.</li>
+          <li>SNTP time sync with fallback to manual epoch sync from Android app.</li>
+          <li>Android app provides Config tab (adapter setup, sensor data, time sync), Control tab (immediate AC commands), and Routine tab (scheduler management).</li>
+      </ul>
+
+      <div class="download-zone">
+        <h3 style="margin:0 0 6px;">Latest Download</h3>
+        <div class="actions">
+          <a id="btn-esp32" class="btn primary disabled" href="#">Download ESP32 Daikin Latest</a>
+        </div>
+        <p id="meta-esp32" class="meta">Package includes ESP32 firmware binaries, Android APK, and setup documentation.</p>
+      </div>
+    </section>
+
     <footer>
       No personal information included.
     </footer>
@@ -500,6 +544,21 @@
         }
         setMeta('meta-remote', 'Remote module package not found in downloads/.');
       });
+
+    fetch('downloads/esp32-releases.json')
+      .then(r => r.ok ? r.json() : Promise.reject())
+      .then(list => {
+        if (!Array.isArray(list) || list.length === 0) return;
+        const latest = list[0];
+        const btn = document.getElementById('btn-esp32');
+        if (btn && latest.fileName) {
+          btn.href = 'downloads/' + latest.fileName;
+          btn.classList.remove('disabled');
+          btn.textContent = 'Download ESP32 Daikin Latest';
+          setMeta('meta-esp32', 'Latest: ' + formatMeta(latest));
+        }
+      })
+      .catch(() => {});
   </script>
 </body>
 </html>

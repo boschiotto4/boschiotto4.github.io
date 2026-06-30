@@ -28,10 +28,16 @@ try {
     if ($Configuration -eq "Release") {
         & .\gradlew.bat clean assembleRelease
         $apkSource = Join-Path $leftyRoot "app\build\outputs\apk\release\app-release.apk"
+        if (-not (Test-Path $apkSource)) {
+            $apkSource = Join-Path $leftyRoot "app\build\outputs\apk\release\app-release-unsigned.apk"
+        }
     }
     else {
         & .\gradlew.bat clean assembleDebug
         $apkSource = Join-Path $leftyRoot "app\build\outputs\apk\debug\app-debug.apk"
+        if (-not (Test-Path $apkSource)) {
+            $apkSource = Join-Path $leftyRoot "app\build\outputs\apk\debug\app-debug-unsigned.apk"
+        }
     }
 
     if ($LASTEXITCODE -ne 0) {
@@ -83,6 +89,12 @@ $newEntry = [pscustomobject]@{
     sha256 = $hash
 }
 
-@($newEntry + $entries) | Select-Object -First 25 | ConvertTo-Json -Depth 3 | Set-Content -Path $manifestPath -Encoding UTF8
+$allEntries = @($newEntry) + @($entries)
+$topEntries = @($allEntries | Select-Object -First 25)
+if ($topEntries.Count -eq 1) {
+    "[$($topEntries | ConvertTo-Json -Depth 3)]" | Set-Content -Path $manifestPath -Encoding UTF8
+} else {
+    $topEntries | ConvertTo-Json -Depth 3 | Set-Content -Path $manifestPath -Encoding UTF8
+}
 
 Write-Host "Published: $outputApk"
