@@ -32,6 +32,47 @@
         radial-gradient(circle at 90% 10%, #204069 0%, transparent 30%),
         linear-gradient(170deg, var(--bg-1), var(--bg-0));
       min-height: 100vh;
+      transition: background 0.6s ease-in-out;
+    }
+
+    /* TabDocks - Blue/Cyan theme */
+    body.theme-tabdocks {
+      background:
+        radial-gradient(circle at 10% 0%, #13436b 0%, transparent 34%),
+        radial-gradient(circle at 90% 10%, #204069 0%, transparent 30%),
+        linear-gradient(170deg, #0a1f31, #06131f);
+    }
+
+    /* ControllerDll - Purple theme */
+    body.theme-controller {
+      background:
+        radial-gradient(circle at 10% 0%, #4a2670 0%, transparent 34%),
+        radial-gradient(circle at 90% 10%, #3d1f5c 0%, transparent 30%),
+        linear-gradient(170deg, #1a0f2e, #0f0a1a);
+    }
+
+    /* RemoteControl - Orange/Warm theme */
+    body.theme-remote {
+      background:
+        radial-gradient(circle at 10% 0%, #6d3f1f 0%, transparent 34%),
+        radial-gradient(circle at 90% 10%, #5a3028 0%, transparent 30%),
+        linear-gradient(170deg, #2a1810, #1a0f0a);
+    }
+
+    /* Lefty - Green/Fresh theme */
+    body.theme-lefty {
+      background:
+        radial-gradient(circle at 10% 0%, #1f5035 0%, transparent 34%),
+        radial-gradient(circle at 90% 10%, #2a4a3a 0%, transparent 30%),
+        linear-gradient(170deg, #0f2818, #0a1810);
+    }
+
+    /* ESP32 - Red/Hot theme */
+    body.theme-esp32 {
+      background:
+        radial-gradient(circle at 10% 0%, #6b1313 0%, transparent 34%),
+        radial-gradient(circle at 90% 10%, #5a2020 0%, transparent 30%),
+        linear-gradient(170deg, #2a0a0a, #1a0505);
     }
 
     .wrap {
@@ -252,7 +293,7 @@
         <span class="chip">Media + Input Tools</span>
         <span class="chip">ESP32 + IoT</span>
       </div>
-      <h1>Project Control Deck</h1>
+      <h1>boschiotto4.github.io</h1>
       <p class="subtitle">
           A set of application briefs for the TabDocks ecosystem, Lefty Android player, and ESP32 IoT projects,
           with direct download links to the latest released builds.
@@ -369,11 +410,13 @@
       </ul>
 
       <div class="download-zone">
-        <h3 style="margin:0 0 6px;">Latest Download</h3>
+        <h3 style="margin:0 0 6px;">Latest Downloads</h3>
         <div class="actions">
           <a id="btn-remote" class="btn primary" href="downloads/RemoteControlDll-latest.zip">Download RemoteControlDll Latest</a>
+          <a id="btn-remote-apk" class="btn primary disabled" href="#">Download RemoteControl APK Latest</a>
         </div>
         <p id="meta-remote" class="meta">Latest remote stack module package.</p>
+        <p id="meta-remote-apk" class="meta">Remote APK not available yet.</p>
       </div>
     </section>
 
@@ -448,11 +491,13 @@
       </ul>
 
       <div class="download-zone">
-        <h3 style="margin:0 0 6px;">Latest Download</h3>
+        <h3 style="margin:0 0 6px;">Latest Downloads</h3>
         <div class="actions">
-          <a id="btn-esp32" class="btn primary disabled" href="#">Download ESP32 Daikin Latest</a>
+          <a id="btn-esp32" class="btn primary disabled" href="#">Download ESP32 Firmware Latest</a>
+          <a id="btn-esp32-apk" class="btn primary disabled" href="#">Download ESP32 Android APK Latest</a>
         </div>
-        <p id="meta-esp32" class="meta">Package includes ESP32 firmware binaries, Android APK, and setup documentation.</p>
+        <p id="meta-esp32" class="meta">ESP32 firmware package not available yet.</p>
+        <p id="meta-esp32-apk" class="meta">ESP32 Android APK not available yet.</p>
       </div>
     </section>
 
@@ -465,14 +510,30 @@
     const tabButtons = Array.from(document.querySelectorAll('.tab-btn'));
     const panels = Array.from(document.querySelectorAll('.panel'));
 
+    // Theme mapping for each project
+    const themeMap = {
+      tabdocks: 'theme-tabdocks',
+      controller: 'theme-controller',
+      remote: 'theme-remote',
+      lefty: 'theme-lefty',
+      esp32: 'theme-esp32'
+    };
+
     tabButtons.forEach(btn => {
       btn.addEventListener('click', () => {
         const targetId = btn.dataset.tab;
         tabButtons.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         panels.forEach(panel => panel.classList.toggle('active', panel.id === targetId));
+        
+        // Apply theme based on selected tab
+        const theme = themeMap[targetId] || 'theme-tabdocks';
+        document.body.className = theme;
       });
     });
+
+    // Set initial theme
+    document.body.className = 'theme-tabdocks';
 
     function setMeta(id, text) {
       const el = document.getElementById(id);
@@ -554,8 +615,38 @@
         if (btn && latest.fileName) {
           btn.href = 'downloads/' + latest.fileName;
           btn.classList.remove('disabled');
-          btn.textContent = 'Download ESP32 Daikin Latest';
+          btn.textContent = 'Download ESP32 Firmware Latest';
           setMeta('meta-esp32', 'Latest: ' + formatMeta(latest));
+        }
+      })
+      .catch(() => {});
+
+    fetch('downloads/remotecontrol-apk-releases.json')
+      .then(r => r.ok ? r.json() : Promise.reject())
+      .then(list => {
+        if (!Array.isArray(list) || list.length === 0) return;
+        const latest = list[0];
+        const btn = document.getElementById('btn-remote-apk');
+        if (btn && latest.fileName) {
+          btn.href = 'downloads/' + latest.fileName;
+          btn.classList.remove('disabled');
+          btn.textContent = 'Download RemoteControl APK Latest';
+          setMeta('meta-remote-apk', 'Latest: ' + formatMeta(latest));
+        }
+      })
+      .catch(() => {});
+
+    fetch('downloads/esp32-apk-releases.json')
+      .then(r => r.ok ? r.json() : Promise.reject())
+      .then(list => {
+        if (!Array.isArray(list) || list.length === 0) return;
+        const latest = list[0];
+        const btn = document.getElementById('btn-esp32-apk');
+        if (btn && latest.fileName) {
+          btn.href = 'downloads/' + latest.fileName;
+          btn.classList.remove('disabled');
+          btn.textContent = 'Download ESP32 Android APK Latest';
+          setMeta('meta-esp32-apk', 'Latest: ' + formatMeta(latest));
         }
       })
       .catch(() => {});

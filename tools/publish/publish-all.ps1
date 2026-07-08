@@ -2,7 +2,8 @@ param(
     [string]$Version,
     [ValidateSet("Debug", "Release")]
     [string]$Configuration = "Release",
-    [switch]$SkipLefty
+    [switch]$SkipLefty,
+    [switch]$SkipApks
 )
 
 $ErrorActionPreference = "Stop"
@@ -20,6 +21,12 @@ Write-Host "Publishing all artifacts with version $Version ($Configuration)..."
 
 if (-not $SkipLefty) {
     & (Join-Path $PSScriptRoot "publish-lefty.ps1") -Version $Version -Configuration $Configuration
+}
+
+if (-not $SkipApks) {
+    Write-Host "Publishing Android APKs..."
+    & (Join-Path $PSScriptRoot "publish-remotecontrol-apk.ps1") -Version $Version -Configuration $Configuration
+    & (Join-Path $PSScriptRoot "publish-esp32-apk.ps1") -Version $Version -Configuration $Configuration
 }
 
 Write-Host "All publish steps completed."
