@@ -1,5 +1,13 @@
 [
     {
+        "version":  "20260902-211609",
+        "configuration":  "Release",
+        "sizeBytes":  5584751,
+        "fileName":  "RemoteControl-20260902-211609.apk",
+        "minSdkVersion":  "API 24",
+        "createdUtc":  "2026-09-02T21:40:36.1026529Z"
+    },
+    {
         "version":  "20260708-200744",
         "configuration":  "Release",
         "sizeBytes":  5584751,

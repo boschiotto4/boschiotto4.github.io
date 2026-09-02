@@ -8,25 +8,22 @@
     *, *::before, *::after { box-sizing: border-box; }
 
     :root {
-      --bg-0: #06131f;
-      --bg-1: #0a1f31;
-      --panel: #13263b;
-      --panel-2: #102338;
-      --border: #27425e;
-      --text: #e3edf8;
-      --muted: #9fb5ca;
-      --cyan: #59d7ff;
-      --radius: 12px;
+      --bg-0: #ffffff;
+      --bg-1: #ffffff;
+      --panel: #f5f5f5;
+      --panel-2: #efefef;
+      --border: #ddd;
+      --text: #2c2e2f;
+      --muted: #6c757d;
+      --accent: #0070ba;
+      --radius: 8px;
     }
 
     body {
       margin: 0;
       color: var(--text);
       font: 15px/1.55 "Segoe UI", Tahoma, sans-serif;
-      background:
-        radial-gradient(circle at 10% 0%, #13436b 0%, transparent 34%),
-        radial-gradient(circle at 90% 10%, #204069 0%, transparent 30%),
-        linear-gradient(170deg, var(--bg-1), var(--bg-0));
+      background: white;
       min-height: 100vh;
     }
 
@@ -45,9 +42,9 @@
 
     .top-nav a {
       text-decoration: none;
-      border: 1px solid #3f6b8c;
-      color: #dff1ff;
-      background: #15314a;
+      border: 1px solid #ddd;
+      color: #2c2e2f;
+      background: #f9f9f9;
       border-radius: 999px;
       padding: 6px 12px;
       font-size: 13px;
@@ -55,16 +52,18 @@
     }
 
     .top-nav a.active {
-      border-color: var(--cyan);
-      box-shadow: inset 0 0 0 1px rgba(89, 215, 255, .25);
+      border-color: var(--accent);
+      background: #f0f7ff;
+      box-shadow: inset 0 0 0 1px rgba(0, 112, 186, .15);
     }
 
     .hero {
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      background: linear-gradient(120deg, #10263d, #0c1e31 65%);
+      background: linear-gradient(120deg, #f0f7ff, #fafcff);
       padding: 26px;
       margin-bottom: 16px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, .05);
     }
 
     .chips {
@@ -77,8 +76,8 @@
     .chip {
       padding: 4px 10px;
       border-radius: 999px;
-      border: 1px solid #356089;
-      color: #bcd4ea;
+      border: 1px solid var(--border);
+      color: var(--text);
       font-size: 12px;
       letter-spacing: .04em;
       text-transform: uppercase;
@@ -104,14 +103,15 @@
     .panel {
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      background: linear-gradient(160deg, var(--panel), var(--panel-2));
+      background: var(--panel);
       padding: 24px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, .05);
     }
 
     .panel h2 {
       margin: 0 0 12px;
       font-size: 1.3rem;
-      color: #dff4ff;
+      color: var(--text);
     }
 
     .grid {
@@ -122,16 +122,17 @@
     }
 
     .card {
-      border: 1px solid #285173;
-      border-radius: 10px;
-      background: rgba(9, 23, 37, .55);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: white;
       padding: 14px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, .05);
     }
 
     .card h3 {
       margin: 0 0 6px;
       font-size: .98rem;
-      color: #d4ecff;
+      color: var(--text);
     }
 
     .card p { margin: 0; color: var(--muted); font-size: .93rem; }
@@ -146,7 +147,7 @@
 
     .download-zone {
       margin-top: 12px;
-      border-top: 1px solid #2a4c67;
+      border-top: 1px solid var(--border);
       padding-top: 14px;
     }
 
@@ -162,10 +163,10 @@
       align-items: center;
       justify-content: center;
       text-decoration: none;
-      border: 1px solid #3f6b8c;
-      color: #dff1ff;
-      background: #15314a;
-      border-radius: 8px;
+      border: 1px solid var(--accent);
+      color: white;
+      background: var(--accent);
+      border-radius: 4px;
       padding: 8px 10px;
       font-size: 13px;
       font-weight: 600;
@@ -191,13 +192,13 @@
 
     .meta {
       margin-top: 8px;
-      color: #84a2bb;
+      color: #999;
       font-size: 12px;
     }
 
     footer {
       margin-top: 20px;
-      color: #88a4bc;
+      color: #999;
       font-size: 12px;
       text-align: center;
     }
@@ -339,66 +340,10 @@
     </section>
 
     <footer>
-      <div class="donate-section">
-        <p>Support development with a donation:</p>
-        <div id="paypal-button-container"></div>
-      </div>
       <p style="margin-top: 16px;">No personal information included.</p>
     </footer>
   </main>
 
-  <script>
-    // Initialize PayPal button
-    if (PayPalConfig && PayPalConfig.enabled && PayPalConfig.clientId !== "YOUR_PAYPAL_CLIENT_ID_HERE") {
-      const script = document.createElement('script');
-      script.src = 'https://www.paypal.com/sdk/js?client-id=' + PayPalConfig.clientId + '&currency=USD';
-      script.onload = function() {
-        if (window.paypal) {
-          paypal.Buttons({
-            style: {
-              shape: 'pill',
-              color: 'blue',
-              layout: 'vertical',
-              label: 'donate'
-            },
-            createOrder: function(data, actions) {
-              return actions.order.create({
-                purchase_units: [{
-                  amount: {
-                    value: '10.00',
-                    breakdown: {
-                      item_total: {
-                        currency_code: 'USD',
-                        value: '10.00'
-                      }
-                    }
-                  },
-                  items: [{
-                    name: 'Donation for TabDocks',
-                    quantity: '1',
-                    unit_amount: {
-                      currency_code: 'USD',
-                      value: '10.00'
-                    }
-                  }]
-                }]
-              });
-            },
-            onApprove: function(data, actions) {
-              return actions.order.capture().then(function(orderData) {
-                console.log('Donation successful!', orderData);
-                alert('Thank you for your donation!');
-              });
-            },
-            onError: function(err) {
-              console.error('PayPal error:', err);
-              alert('An error occurred during the transaction. Please try again.');
-            }
-          }).render('#paypal-button-container');
-        }
-      };
-      document.head.appendChild(script);
-    }
-  </script>
+
 </body>
 </html>

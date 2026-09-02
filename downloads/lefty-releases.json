@@ -1,5 +1,13 @@
 ﻿[
     {
+        "fileName":  "Lefty-20260902-211609.apk",
+        "version":  "20260902-211609",
+        "configuration":  "Release",
+        "createdUtc":  "2026-09-02T21:33:47.9819721Z",
+        "sizeBytes":  7141418,
+        "sha256":  "fb16d7209e6c6a9afab1a2ddb0b16afc0020494c5d4d95d62206a5d3342e0859"
+    },
+    {
         "fileName":  "Lefty-20260630-101057.apk",
         "version":  "20260630-101057",
         "configuration":  "Release",

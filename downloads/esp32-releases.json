@@ -1,8 +1,18 @@
-﻿[{
-    "fileName":  "ESP32-Daikin-20260630-101057.zip",
-    "version":  "20260630-101057",
-    "configuration":  "Release",
-    "createdUtc":  "2026-06-30T10:44:41.5230426Z",
-    "sizeBytes":  8772182,
-    "sha256":  "ff2a4bce588fd5f693d5747012361c10420082174410104dcedec98f6b7211f5"
-}]
+﻿[
+    {
+        "fileName":  "ESP32-Daikin-20260902-211609.zip",
+        "version":  "20260902-211609",
+        "configuration":  "Release",
+        "createdUtc":  "2026-09-02T21:31:24.6370552Z",
+        "sizeBytes":  8772184,
+        "sha256":  "ce6f3009ac136b2443b5350ee089e979ccdd95406e673cab0f86d3a514869446"
+    },
+    {
+        "fileName":  "ESP32-Daikin-20260630-101057.zip",
+        "version":  "20260630-101057",
+        "configuration":  "Release",
+        "createdUtc":  "2026-06-30T10:44:41.5230426Z",
+        "sizeBytes":  8772182,
+        "sha256":  "ff2a4bce588fd5f693d5747012361c10420082174410104dcedec98f6b7211f5"
+    }
+]
