@@ -198,20 +198,40 @@
   </style>
   <script src="paypal-config.js"></script>
   <script>
+    // Debug: Check if PayPal config loaded
+    window.addEventListener('load', function() {
+      console.log('PayPalConfig:', PayPalConfig);
+      if (PayPalConfig) {
+        console.log('Client ID:', PayPalConfig.clientId);
+        console.log('Enabled:', PayPalConfig.enabled);
+        console.log('Button container exists:', !!document.getElementById('paypal-button-container'));
+      }
+    });
+
     // Dynamically load PayPal SDK once config is loaded
     if (PayPalConfig && PayPalConfig.enabled && PayPalConfig.clientId && PayPalConfig.clientId !== "YOUR_PAYPAL_CLIENT_ID_HERE") {
+      console.log('Loading PayPal SDK...');
       const script = document.createElement('script');
       script.src = 'https://www.paypal.com/sdk/js?client-id=' + encodeURIComponent(PayPalConfig.clientId) + '&currency=USD';
       script.async = true;
-      script.onload = initPayPalButton;
+      script.onload = function() {
+        console.log('PayPal SDK loaded, initializing button...');
+        initPayPalButton();
+      };
+      script.onerror = function() {
+        console.error('Failed to load PayPal SDK');
+      };
       document.head.appendChild(script);
+    } else {
+      console.warn('PayPal not configured or disabled');
     }
 
     function initPayPalButton() {
       if (window.paypal) {
+        console.log('PayPal object available, creating buttons...');
         paypal.Buttons({
           style: {
-            shape: 'round',
+            shape: 'pill',
             color: 'blue',
             layout: 'vertical',
             label: 'donate'
@@ -251,8 +271,10 @@
           }
         }).render('#paypal-button-container').catch(function(err) {
           console.error('PayPal render error:', err);
-          document.getElementById('paypal-button-container').textContent = 'Donation button unavailable';
+          document.getElementById('paypal-button-container').innerHTML = '<p style="color: red; font-size: 12px;">Error: ' + err.message + '</p>';
         });
+      } else {
+        console.error('PayPal SDK did not load');
       }
     }
   </script>
