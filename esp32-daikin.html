@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ESP32 Daikin | boschiotto4.github.io</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+
+    :root {
+      --bg-0: #1a0505;
+      --bg-1: #2a0a0a;
+      --panel: #3a1414;
+      --panel-2: #301010;
+      --border: #6d2f2f;
+      --text: #ffeded;
+      --muted: #e2bbbb;
+      --hot: #ff8a8a;
+      --radius: 12px;
+    }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      font: 15px/1.55 "Segoe UI", Tahoma, sans-serif;
+      background:
+        radial-gradient(circle at 10% 0%, #6b1313 0%, transparent 34%),
+        radial-gradient(circle at 90% 10%, #5a2020 0%, transparent 30%),
+        linear-gradient(170deg, var(--bg-1), var(--bg-0));
+      min-height: 100vh;
+    }
+
+    .wrap {
+      width: min(1000px, 94vw);
+      margin: 0 auto;
+      padding: 32px 0 70px;
+    }
+
+    .top-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .top-nav a {
+      text-decoration: none;
+      border: 1px solid #8a4a4a;
+      color: #ffe4e4;
+      background: #4a1f1f;
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .top-nav a.active {
+      border-color: var(--hot);
+      box-shadow: inset 0 0 0 1px rgba(255, 138, 138, .25);
+    }
+
+    .hero {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: linear-gradient(120deg, #4a1a1a, #331010 65%);
+      padding: 26px;
+      margin-bottom: 16px;
+    }
+
+    .panel {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: linear-gradient(160deg, var(--panel), var(--panel-2));
+      padding: 24px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      letter-spacing: -0.02em;
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: 1.3rem;
+      color: #ffe6e6;
+    }
+
+    .subtitle {
+      margin-top: 8px;
+      color: var(--muted);
+      max-width: 900px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 14px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      margin: 14px 0 18px;
+    }
+
+    .card {
+      border: 1px solid #7a3535;
+      border-radius: 10px;
+      background: rgba(52, 12, 12, .6);
+      padding: 14px;
+    }
+
+    .card h3 {
+      margin: 0 0 6px;
+      font-size: .98rem;
+      color: #ffe7e7;
+    }
+
+    .card p { margin: 0; color: var(--muted); font-size: .93rem; }
+
+    .feature-list {
+      margin: 10px 0 0 18px;
+      color: var(--muted);
+      padding: 0;
+    }
+
+    .feature-list li { margin-bottom: 6px; }
+
+    .download-zone {
+      margin-top: 12px;
+      border-top: 1px solid #723535;
+      padding-top: 14px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      border: 1px solid #8a4a4a;
+      color: #ffe4e4;
+      background: #4a1f1f;
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn.disabled {
+      opacity: .55;
+      pointer-events: none;
+    }
+
+    .meta {
+      margin-top: 8px;
+      color: #dbadad;
+      font-size: 12px;
+    }
+
+    footer {
+      margin-top: 20px;
+      color: #d0a2a2;
+      font-size: 12px;
+      text-align: center;
+    }
+
+    .donate-section {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid #723535;
+      text-align: center;
+    }
+
+    .donate-section p {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 700px) {
+      .hero, .panel { padding: 18px; }
+    }
+  </style>
+  <script src="paypal-config.js"></script>
+</head>
+<body>
+  <main class="wrap">
+    <nav class="top-nav" aria-label="Project pages">
+      <a href="tabdocks.html">TabDocks</a>
+      <a href="lefty.html">Lefty</a>
+      <a class="active" href="esp32-daikin.html">ESP32 Daikin</a>
+    </nav>
+
+    <section class="hero">
+      <h1>ESP32 Daikin</h1>
+      <p class="subtitle">
+        ESP32 firmware and Android app for controlling Daikin air conditioners via Tasmota IR adapter.
+      </p>
+    </section>
+
+    <section class="panel">
+      <h2>ESP32 Daikin AC Controller</h2>
+
+      <div class="grid">
+        <article class="card">
+          <h3>ESP32 Firmware</h3>
+          <p>ESP-IDF based firmware with HTTP server, NVS storage, SNTP time sync, and routine scheduler with duration tracking.</p>
+        </article>
+        <article class="card">
+          <h3>Android Controller</h3>
+          <p>Kotlin/Compose app with Config, Control, and Routine tabs for managing ESP32 and scheduling AC operations.</p>
+        </article>
+        <article class="card">
+          <h3>IR Communication</h3>
+          <p>Connects to Tasmota IR Wi-Fi adapter to send IRHVAC commands for Daikin AC control via HTTP bridge.</p>
+        </article>
+      </div>
+
+      <ul class="feature-list">
+        <li>ESP32 creates control AP (ESP32-DAIKIN) for direct Android connection without internet.</li>
+        <li>REST API for immediate commands, routine configuration, and status monitoring.</li>
+        <li>Temperature-based routine scheduler with 8 configurable routines and duration settings (5-1440 minutes).</li>
+        <li>Auto-transition between routines when duration expires, supporting temperature thresholds.</li>
+        <li>NVS persistence for Wi-Fi config and routine state across reboots.</li>
+      </ul>
+
+      <div class="download-zone">
+        <h3 style="margin:0 0 6px;">Downloads</h3>
+        <div class="actions">
+          <a href="esp32-daikin-downloads.html" class="btn" style="background: #5a2525; border-color: #9a5a5a;">View Downloads & Donate</a>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="donate-section">
+        <p>Support development with a donation:</p>
+        <div id="paypal-button-container"></div>
+      </div>
+      <p style="margin-top: 16px;">No personal information included.</p>
+    </footer>
+  </main>
+
+  <script>
+    // Initialize PayPal button
+    if (PayPalConfig && PayPalConfig.enabled && PayPalConfig.clientId !== "YOUR_PAYPAL_CLIENT_ID_HERE") {
+      const script = document.createElement('script');
+      script.src = 'https://www.paypal.com/sdk/js?client-id=' + PayPalConfig.clientId + '&currency=USD';
+      script.onload = function() {
+        if (window.paypal) {
+          paypal.Buttons({
+            style: {
+              shape: 'round',
+              color: 'blue',
+              layout: 'vertical',
+              label: 'donate'
+            },
+            createOrder: function(data, actions) {
+              return actions.order.create({
+                purchase_units: [{
+                  amount: {
+                    value: '10.00',
+                    breakdown: {
+                      item_total: {
+                        currency_code: 'USD',
+                        value: '10.00'
+                      }
+                    }
+                  },
+                  items: [{
+                    name: 'Donation for ESP32 Daikin',
+                    quantity: '1',
+                    unit_amount: {
+                      currency_code: 'USD',
+                      value: '10.00'
+                    }
+                  }]
+                }]
+              });
+            },
+            onApprove: function(data, actions) {
+              return actions.order.capture().then(function(orderData) {
+                console.log('Donation successful!', orderData);
+                alert('Thank you for your donation!');
+              });
+            },
+            onError: function(err) {
+              console.error('PayPal error:', err);
+              alert('An error occurred during the transaction. Please try again.');
+            }
+          }).render('#paypal-button-container');
+        }
+      };
+      document.head.appendChild(script);
+    }
+  </script>
+</body>
+</html>

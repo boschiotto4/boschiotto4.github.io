@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TabDocks Downloads | boschiotto4.github.io</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+
+    :root {
+      --bg-0: #06131f;
+      --bg-1: #0a1f31;
+      --panel: #13263b;
+      --panel-2: #102338;
+      --border: #27425e;
+      --text: #e3edf8;
+      --muted: #9fb5ca;
+      --cyan: #59d7ff;
+      --radius: 12px;
+    }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      font: 15px/1.55 "Segoe UI", Tahoma, sans-serif;
+      background:
+        radial-gradient(circle at 10% 0%, #13436b 0%, transparent 34%),
+        radial-gradient(circle at 90% 10%, #204069 0%, transparent 30%),
+        linear-gradient(170deg, var(--bg-1), var(--bg-0));
+      min-height: 100vh;
+    }
+
+    .wrap {
+      width: min(1150px, 94vw);
+      margin: 0 auto;
+      padding: 32px 0 70px;
+    }
+
+    .top-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .top-nav a {
+      text-decoration: none;
+      border: 1px solid #3f6b8c;
+      color: #dff1ff;
+      background: #15314a;
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .top-nav a.active {
+      border-color: var(--cyan);
+      box-shadow: inset 0 0 0 1px rgba(89, 215, 255, .25);
+    }
+
+    .hero {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: linear-gradient(120deg, #10263d, #0c1e31 65%);
+      padding: 26px;
+      margin-bottom: 16px;
+    }
+
+    .panel {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: linear-gradient(160deg, var(--panel), var(--panel-2));
+      padding: 24px;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      letter-spacing: -0.02em;
+    }
+
+    h2 {
+      margin: 0 0 16px;
+      font-size: 1.2rem;
+      color: #dff4ff;
+    }
+
+    .subtitle {
+      margin-top: 8px;
+      color: var(--muted);
+      max-width: 900px;
+    }
+
+    .donate-section {
+      margin-bottom: 24px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid #2a4c67;
+      text-align: center;
+    }
+
+    .donate-section h3 {
+      margin: 0 0 12px;
+      font-size: 1.1rem;
+      color: #dff4ff;
+    }
+
+    .donate-section p {
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .downloads-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .download-item {
+      border: 1px solid #285173;
+      border-radius: 10px;
+      background: rgba(9, 23, 37, .55);
+      padding: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .download-info h3 {
+      margin: 0 0 4px;
+      font-size: .98rem;
+      color: #d4ecff;
+    }
+
+    .download-info p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .93rem;
+    }
+
+    .section-title {
+      margin: 20px 0 12px;
+      font-size: 1.1rem;
+      color: #d4ecff;
+      border-bottom: 1px solid #2a4c67;
+      padding-bottom: 8px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      border: 1px solid #3f6b8c;
+      color: #dff1ff;
+      background: #15314a;
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .btn:hover {
+      background: #1a3d55;
+      border-color: #4f7ba0;
+    }
+
+    .btn.secondary {
+      background: #0f263a;
+      border-color: #27425e;
+    }
+
+    .btn.secondary:hover {
+      background: #15314a;
+      border-color: #3f6b8c;
+    }
+
+    .meta {
+      color: #84a2bb;
+      font-size: 12px;
+      margin: 0;
+    }
+
+    footer {
+      margin-top: 20px;
+      color: #88a4bc;
+      font-size: 12px;
+      text-align: center;
+    }
+
+    @media (max-width: 700px) {
+      .hero, .panel { padding: 18px; }
+      .download-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+  <script src="paypal-config.js"></script>
+  <script>
+    // Dynamically load PayPal SDK once config is loaded
+    if (PayPalConfig && PayPalConfig.enabled && PayPalConfig.clientId && PayPalConfig.clientId !== "YOUR_PAYPAL_CLIENT_ID_HERE") {
+      const script = document.createElement('script');
+      script.src = 'https://www.paypal.com/sdk/js?client-id=' + encodeURIComponent(PayPalConfig.clientId) + '&currency=USD';
+      script.async = true;
+      script.onload = initPayPalButton;
+      document.head.appendChild(script);
+    }
+
+    function initPayPalButton() {
+      if (window.paypal) {
+        paypal.Buttons({
+          style: {
+            shape: 'round',
+            color: 'blue',
+            layout: 'vertical',
+            label: 'donate'
+          },
+          createOrder: function(data, actions) {
+            return actions.order.create({
+              purchase_units: [{
+                amount: {
+                  value: '10.00',
+                  breakdown: {
+                    item_total: {
+                      currency_code: 'USD',
+                      value: '10.00'
+                    }
+                  }
+                },
+                items: [{
+                  name: 'Donation for TabDocks',
+                  quantity: '1',
+                  unit_amount: {
+                    currency_code: 'USD',
+                    value: '10.00'
+                  }
+                }]
+              }]
+            });
+          },
+          onApprove: function(data, actions) {
+            return actions.order.capture().then(function(orderData) {
+              console.log('Donation successful!', orderData);
+              alert('Thank you for your donation!');
+            });
+          },
+          onError: function(err) {
+            console.error('PayPal error:', err);
+            alert('An error occurred during the transaction. Please try again.');
+          }
+        }).render('#paypal-button-container').catch(function(err) {
+          console.error('PayPal render error:', err);
+          document.getElementById('paypal-button-container').textContent = 'Donation button unavailable';
+        });
+      }
+    }
+  </script>
+</head>
+<body>
+  <main class="wrap">
+    <nav class="top-nav" aria-label="Project pages">
+      <a class="active" href="tabdocks.html">TabDocks</a>
+      <a href="lefty.html">Lefty</a>
+      <a href="esp32-daikin.html">ESP32 Daikin</a>
+    </nav>
+
+    <section class="hero">
+      <h1>TabDocks Downloads</h1>
+      <p class="subtitle">
+        Download TabDocks Core, RemoteControl Stack, and ControllerDll plugin.
+      </p>
+    </section>
+
+    <section class="panel">
+      <div class="donate-section">
+        <h3>Support Development</h3>
+        <p>If you find these projects useful, please consider supporting development with a donation:</p>
+        <div id="paypal-button-container"></div>
+      </div>
+
+      <h2>TabDocks Core</h2>
+      <div class="downloads-list">
+        <div class="download-item">
+          <div class="download-info">
+            <h3>TabDocks Latest Release</h3>
+            <p>Windows dock bar with tabs, calendar, and launcher functionality</p>
+            <p id="meta-tabdocks" class="meta">Checking availability...</p>
+          </div>
+          <a id="btn-tabdocks" class="btn secondary" href="downloads/TabDocks-latest.zip">Download Latest</a>
+        </div>
+        <div class="download-item">
+          <div class="download-info">
+            <h3>Release History</h3>
+            <p>View all TabDocks releases and version history</p>
+          </div>
+          <a class="btn secondary" href="downloads/releases.json">View History</a>
+        </div>
+      </div>
+
+      <h2 class="section-title">RemoteControl Stack</h2>
+      <div class="downloads-list">
+        <div class="download-item">
+          <div class="download-info">
+            <h3>RemoteControlDll Latest</h3>
+            <p>.NET module with HTTP parser, encryption, and FTP manager</p>
+            <p id="meta-remote" class="meta">Checking availability...</p>
+          </div>
+          <a id="btn-remote" class="btn secondary" href="downloads/RemoteControlDll-latest.zip">Download Latest</a>
+        </div>
+
+        <div class="download-item">
+          <div class="download-info">
+            <h3>RemoteControl Android APK</h3>
+            <p>Companion remote interface for controlling TabDocks</p>
+            <p id="meta-remote-apk" class="meta">Checking availability...</p>
+          </div>
+          <a id="btn-remote-apk" class="btn secondary" href="#">Check Release</a>
+        </div>
+      </div>
+
+      <h2 class="section-title">ControllerDll Plugin</h2>
+      <div class="downloads-list">
+        <div class="download-item">
+          <div class="download-info">
+            <h3>ControllerDll Latest</h3>
+            <p>HID-based controller input plugin for joypads and gamepads</p>
+            <p id="meta-controller" class="meta">Checking availability...</p>
+          </div>
+          <a id="btn-controller" class="btn secondary" href="downloads/ControllerDll-latest.zip">Download Latest</a>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <a href="tabdocks.html">← Back to Project Page</a>
+      <p style="margin-top: 12px;">No personal information included.</p>
+    </footer>
+  </main>
+
+  <script>
+    function setMeta(id, text) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = text;
+    }
+
+    function formatMeta(item) {
+      if (!item) return "";
+      const date = item.createdUtc ? new Date(item.createdUtc).toLocaleDateString() : "";
+      const size = item.sizeBytes ? ((item.sizeBytes / 1048576).toFixed(1) + " MB") : "";
+      return [item.version, date, size].filter(Boolean).join(" · ");
+    }
+
+    fetch("downloads/releases.json")
+      .then(r => r.ok ? r.json() : Promise.reject())
+      .then(list => {
+        if (!Array.isArray(list) || list.length === 0) {
+          setMeta("meta-tabdocks", "No releases available");
+          return;
+        }
+        const latest = list[0];
+        const btn = document.getElementById("btn-tabdocks");
+        if (btn && latest.fileName) {
+          btn.href = "downloads/" + latest.fileName;
+        }
+        setMeta("meta-tabdocks", formatMeta(latest));
+      })
+      .catch(() => setMeta("meta-tabdocks", "No releases available"));
+
+    fetch("downloads/ControllerDll-latest.zip", { method: "HEAD" })
+      .then(r => {
+        if (!r.ok) throw new Error("missing");
+        setMeta("meta-controller", "Latest plugin package available");
+      })
+      .catch(() => {
+        setMeta("meta-controller", "Package not available");
+      });
+
+    fetch("downloads/RemoteControlDll-latest.zip", { method: "HEAD" })
+      .then(r => {
+        if (!r.ok) throw new Error("missing");
+        setMeta("meta-remote", "Latest module package available");
+      })
+      .catch(() => {
+        setMeta("meta-remote", "Package not available");
+      });
+
+    fetch("downloads/remotecontrol-apk-releases.json")
+      .then(r => r.ok ? r.json() : Promise.reject())
+      .then(list => {
+        if (!Array.isArray(list) || list.length === 0) return;
+        const latest = list[0];
+        const btn = document.getElementById("btn-remote-apk");
+        if (btn && latest.fileName) {
+          btn.href = "downloads/" + latest.fileName;
+          btn.textContent = "Download Latest";
+          setMeta("meta-remote-apk", formatMeta(latest));
+        }
+      })
+      .catch(() => {
+        setMeta("meta-remote-apk", "No releases available");
+      });
+  </script>
+</body>
+</html>

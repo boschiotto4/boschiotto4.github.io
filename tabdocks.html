@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TabDocks | boschiotto4.github.io</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+
+    :root {
+      --bg-0: #06131f;
+      --bg-1: #0a1f31;
+      --panel: #13263b;
+      --panel-2: #102338;
+      --border: #27425e;
+      --text: #e3edf8;
+      --muted: #9fb5ca;
+      --cyan: #59d7ff;
+      --radius: 12px;
+    }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      font: 15px/1.55 "Segoe UI", Tahoma, sans-serif;
+      background:
+        radial-gradient(circle at 10% 0%, #13436b 0%, transparent 34%),
+        radial-gradient(circle at 90% 10%, #204069 0%, transparent 30%),
+        linear-gradient(170deg, var(--bg-1), var(--bg-0));
+      min-height: 100vh;
+    }
+
+    .wrap {
+      width: min(1150px, 94vw);
+      margin: 0 auto;
+      padding: 32px 0 70px;
+    }
+
+    .top-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .top-nav a {
+      text-decoration: none;
+      border: 1px solid #3f6b8c;
+      color: #dff1ff;
+      background: #15314a;
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .top-nav a.active {
+      border-color: var(--cyan);
+      box-shadow: inset 0 0 0 1px rgba(89, 215, 255, .25);
+    }
+
+    .hero {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: linear-gradient(120deg, #10263d, #0c1e31 65%);
+      padding: 26px;
+      margin-bottom: 16px;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .chip {
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid #356089;
+      color: #bcd4ea;
+      font-size: 12px;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      margin-top: 8px;
+      color: var(--muted);
+      max-width: 900px;
+    }
+
+    .stack {
+      display: grid;
+      gap: 14px;
+    }
+
+    .panel {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: linear-gradient(160deg, var(--panel), var(--panel-2));
+      padding: 24px;
+    }
+
+    .panel h2 {
+      margin: 0 0 12px;
+      font-size: 1.3rem;
+      color: #dff4ff;
+    }
+
+    .grid {
+      display: grid;
+      gap: 14px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      margin: 14px 0 18px;
+    }
+
+    .card {
+      border: 1px solid #285173;
+      border-radius: 10px;
+      background: rgba(9, 23, 37, .55);
+      padding: 14px;
+    }
+
+    .card h3 {
+      margin: 0 0 6px;
+      font-size: .98rem;
+      color: #d4ecff;
+    }
+
+    .card p { margin: 0; color: var(--muted); font-size: .93rem; }
+
+    .feature-list {
+      margin: 10px 0 0 18px;
+      color: var(--muted);
+      padding: 0;
+    }
+
+    .feature-list li { margin-bottom: 6px; }
+
+    .download-zone {
+      margin-top: 12px;
+      border-top: 1px solid #2a4c67;
+      padding-top: 14px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      border: 1px solid #3f6b8c;
+      color: #dff1ff;
+      background: #15314a;
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn.primary {
+      background: #145175;
+      border-color: #3f89b6;
+      color: #eaf8ff;
+    }
+
+    .btn.secondary {
+      background: #1f3a2a;
+      border-color: #45735b;
+      color: #d8faec;
+    }
+
+    .btn.disabled {
+      opacity: .55;
+      pointer-events: none;
+    }
+
+    .meta {
+      margin-top: 8px;
+      color: #84a2bb;
+      font-size: 12px;
+    }
+
+    footer {
+      margin-top: 20px;
+      color: #88a4bc;
+      font-size: 12px;
+      text-align: center;
+    }
+
+    .donate-section {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid #2a4c67;
+      text-align: center;
+    }
+
+    .donate-section p {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 700px) {
+      .hero, .panel { padding: 18px; }
+    }
+  </style>
+  <script src="paypal-config.js"></script>
+</head>
+<body>
+  <main class="wrap">
+    <nav class="top-nav" aria-label="Project pages">
+      <a class="active" href="tabdocks.html">TabDocks</a>
+      <a href="lefty.html">Lefty</a>
+      <a href="esp32-daikin.html">ESP32 Daikin</a>
+    </nav>
+
+    <section class="hero">
+      <div class="chips">
+        <span class="chip">Windows + Android</span>
+        <span class="chip">Docking + Remote Control</span>
+        <span class="chip">Plugin + APK + DLL</span>
+      </div>
+      <h1>TabDocks</h1>
+      <p class="subtitle">
+        This page groups TabDocks Core, RemoteControl Stack, and ControllerDll as one stack.
+      </p>
+    </section>
+
+    <section class="stack" aria-label="TabDocks stack sections">
+      <article class="panel">
+        <h2>TabDocks Core</h2>
+        <p>
+          A Windows dock bar for organizing applications, tools, and system actions into tabs that can be attached to a screen edge.
+        </p>
+
+        <div class="grid">
+          <article class="card">
+            <h3>Dock + Launcher</h3>
+            <p>Screen-edge AppBar behavior, per-tab launch items, command arguments, and optional elevated execution.</p>
+          </article>
+          <article class="card">
+            <h3>Calendar With Week Numbers</h3>
+            <p>Dedicated calendar window with a visible Week column, Monday as first day of week, and themed calendar colors.</p>
+          </article>
+          <article class="card">
+            <h3>Config + Packaging</h3>
+            <p>Release packaging to site downloads with zip artifacts and manifest updates via release metadata JSON.</p>
+          </article>
+        </div>
+
+        <ul class="feature-list">
+          <li>Tabbed launcher groups shortcuts, folders, scripts, and app entries into separate docks.</li>
+          <li>Per-tab styling includes colors, blur/transparency, title colors, and adjustable thickness.</li>
+          <li>System tray integration and fullscreen-aware behavior keep the dock accessible but unobtrusive.</li>
+        </ul>
+
+        <div class="download-zone">
+          <h3 style="margin:0 0 6px;">Download</h3>
+          <a href="tabdocks-downloads.html" class="btn primary">View All Downloads & Donate</a>
+        </div>
+      </article>
+
+      <article class="panel">
+        <h2>RemoteControl Stack</h2>
+        <p>
+          A remote-control system built around passive HTTP polling, a PHP endpoint layer, the Android remote client, and the RemoteControl.dll module.
+        </p>
+
+        <div class="grid">
+          <article class="card">
+            <h3>Passive HTTP Endpoints</h3>
+            <p>PHP endpoints: get.php, put.php, get_screen.php, put_screen.php for polling-style remote interactions.</p>
+          </article>
+          <article class="card">
+            <h3>Android Remote App</h3>
+            <p>Companion remote interface project used to trigger actions and push commands to the desktop host.</p>
+          </article>
+          <article class="card">
+            <h3>RemoteControl.dll</h3>
+            <p>.NET module containing HTTP parser/transport, encryption helper, FTP manager, and related WPF config pages.</p>
+          </article>
+        </div>
+
+        <ul class="feature-list">
+          <li>Passive request/response flow for devices that poll for state, commands, or screen data.</li>
+          <li>RemoteControl.dll handles parsing, encryption, FTP synchronization, and desktop control helpers.</li>
+          <li>The Android remote app provides a portable interface for triggering actions and managing the dock remotely.</li>
+        </ul>
+
+        <div class="download-zone">
+          <h3 style="margin:0 0 6px;">Download</h3>
+          <a href="tabdocks-downloads.html" class="btn primary">View All Downloads & Donate</a>
+        </div>
+      </article>
+
+      <article class="panel">
+        <h2>ControllerDll</h2>
+        <p>
+          A controller-input plugin that turns supported joypads into a mouse-and-action surface for the TabDocks runtime.
+        </p>
+
+        <div class="grid">
+          <article class="card">
+            <h3>Input Layer</h3>
+            <p>HID-based controller input handling with support for PS3/PS4 style mappings and plugin runtime loading.</p>
+          </article>
+          <article class="card">
+            <h3>Build Output</h3>
+            <p>Shipped as a plugin DLL package and loaded into the runtime plugin folder of the dock application.</p>
+          </article>
+        </div>
+
+        <ul class="feature-list">
+          <li>Reads controller input through HID-style mappings suitable for gamepads and Bluetooth-connected pads.</li>
+          <li>Translates buttons and stick movements into pointer movement and desktop actions.</li>
+          <li>Works as an optional plugin so the dock can run without the controller layer loaded.</li>
+        </ul>
+
+        <div class="download-zone">
+          <h3 style="margin:0 0 6px;">Download</h3>
+          <a href="tabdocks-downloads.html" class="btn primary">View All Downloads & Donate</a>
+        </div>
+      </article>
+    </section>
+
+    <footer>
+      <div class="donate-section">
+        <p>Support development with a donation:</p>
+        <div id="paypal-button-container"></div>
+      </div>
+      <p style="margin-top: 16px;">No personal information included.</p>
+    </footer>
+  </main>
+
+  <script>
+    // Initialize PayPal button
+    if (PayPalConfig && PayPalConfig.enabled && PayPalConfig.clientId !== "YOUR_PAYPAL_CLIENT_ID_HERE") {
+      const script = document.createElement('script');
+      script.src = 'https://www.paypal.com/sdk/js?client-id=' + PayPalConfig.clientId + '&currency=USD';
+      script.onload = function() {
+        if (window.paypal) {
+          paypal.Buttons({
+            style: {
+              shape: 'round',
+              color: 'blue',
+              layout: 'vertical',
+              label: 'donate'
+            },
+            createOrder: function(data, actions) {
+              return actions.order.create({
+                purchase_units: [{
+                  amount: {
+                    value: '10.00',
+                    breakdown: {
+                      item_total: {
+                        currency_code: 'USD',
+                        value: '10.00'
+                      }
+                    }
+                  },
+                  items: [{
+                    name: 'Donation for TabDocks',
+                    quantity: '1',
+                    unit_amount: {
+                      currency_code: 'USD',
+                      value: '10.00'
+                    }
+                  }]
+                }]
+              });
+            },
+            onApprove: function(data, actions) {
+              return actions.order.capture().then(function(orderData) {
+                console.log('Donation successful!', orderData);
+                alert('Thank you for your donation!');
+              });
+            },
+            onError: function(err) {
+              console.error('PayPal error:', err);
+              alert('An error occurred during the transaction. Please try again.');
+            }
+          }).render('#paypal-button-container');
+        }
+      };
+      document.head.appendChild(script);
+    }
+  </script>
+</body>
+</html>
